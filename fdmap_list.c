@@ -345,6 +345,7 @@ fdmap_list_pop(fdmap_list_t list, int *fd, data_t *data) {
 		fdmap_list_unlink(list, node);
 		if(fd)   *fd   = node->fd;
 		if(data) *data = node->data;
+		fdmap_node_free(node);
 		return 1;
 	}
 	return 0;
