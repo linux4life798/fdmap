@@ -242,18 +242,18 @@ fdmap_list_size(fdmap_list_t list) {
 
 /**
  * @brief Find the data associated with the given fd in the list
+ * @return 1 if found, 0 if not found
  */
 int
 fdmap_list_find(fdmap_list_t list, int fd, data_t *data) {
 	fdmap_node_t node;
 	assert(list);
-	assert(data);
 
 	switch(list->type) {
 	case FDMAP_LIST_TYPE_FIFO:
 		for(node = list->head; node; node = node->next) {
 			if(node->fd == fd) {
-				*data = node->data;
+				if(data) *data = node->data;
 				return 1;
 			}
 		}
@@ -261,7 +261,7 @@ fdmap_list_find(fdmap_list_t list, int fd, data_t *data) {
 	case FDMAP_LIST_TYPE_ORDERED:
 		for(node = list->head; node; node = node->next) {
 			if(node->fd == fd) {
-				*data = node->data;
+				if(data) *data = node->data;
 				return 1;
 			} else if(node->fd > fd) {
 				return 0;
