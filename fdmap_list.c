@@ -354,3 +354,27 @@ fdmap_list_pop(fdmap_list_t list, int *fd, data_t *data) {
 	}
 	return 0;
 }
+
+/**
+ * @brief Fetches the last inserted mapping without removing
+ *
+ * When configured as a FIFO, this function fetches the last (fd,data) pair
+ * and places the info in the locations specified.
+ * @param list The reference fdmap list.
+ * @param fd The locations to place the last mapping fd in.
+ * @param data The location to place the last mapping data value in.
+ * @return 1 when successful, 0 when the fd couldn't be found.
+ */
+int
+fdmap_list_peek(fdmap_list_t list, int *fd, data_t *data) {
+	assert(list);
+
+	// if there is an element to pop
+	if(list->head) {
+		fdmap_node_t node = list->head;
+		if(fd)   *fd   = node->fd;
+		if(data) *data = node->data;
+		return 1;
+	}
+	return 0;
+}

@@ -33,5 +33,7 @@ int
 fdmap_list_rm(fdmap_list_t list, int fd);
 int
 fdmap_list_pop(fdmap_list_t list, int *fd, data_t *data);
+int
+fdmap_list_peek(fdmap_list_t list, int *fd, data_t *data);
 
 #endif /* FDMAP_FDMAP_LIST_H_ */
