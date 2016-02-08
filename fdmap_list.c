@@ -240,6 +240,9 @@ fdmap_list_size(fdmap_list_t list) {
 	return list->size;
 }
 
+/**
+ * @brief Find the data associated with the given fd in the list
+ */
 int
 fdmap_list_find(fdmap_list_t list, int fd, data_t *data) {
 	fdmap_node_t node;
@@ -340,6 +343,7 @@ int
 fdmap_list_pop(fdmap_list_t list, int *fd, data_t *data) {
 	assert(list);
 
+	// if there is an element to pop
 	if(list->head) {
 		fdmap_node_t node = list->head;
 		fdmap_list_unlink(list, node);
