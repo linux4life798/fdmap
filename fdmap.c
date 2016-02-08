@@ -28,8 +28,6 @@ typedef struct fdmap {
 	int items;
 	/** size of the table */
 	int size;
-	/** collisions */
-//	int colls;
 	/** the actual hash table of table_node pointers */
 	fdmap_list_t *table;
 	/** mark which file descriptors are in the hash table */
@@ -70,7 +68,6 @@ fdmap_new(int initial_size) {
 	}
 	map->items = 0;
 	map->size = initial_size>0?initial_size:FDMAP_DEFAULT_SIZE;
-//	map->colls = 0;
 	map->table = (fdmap_list_t *) calloc(map->size, sizeof(fdmap_list_t));
 	if(!map->table) {
 		free(map);
@@ -94,15 +91,6 @@ fdmap_free(fdmap_t map) {
 	free(map->table);
 	free(map);
 }
-
-//void fdmap_resize(fdmap_t map, int newsize) {
-//	assert(map);
-//	map->table = realloc(map->table, newsize);
-//	if(map->table == NULL) {
-//		perror("could not resize the file descriptor list");
-//	}
-//	map->size = newsize;
-//}
 
 void
 fdmap_add(fdmap_t map, int fd, data_t data) {
@@ -142,15 +130,3 @@ fdmap_find(fdmap_t map, int fd, data_t *data) {
 	list = map->table[fdmap_hash(map, fd)];
 	return fdmap_list_find(list, fd, data);
 }
-
-//int
-//fdmap_isin(fdmap_t *list, int fd) {
-//	int *item;
-//	assert(list);
-//	assert(fd >= 0);
-//
-//	///@todo verify bsearch can search on an array wit 0 items
-//
-//	item = (int *)bsearch(&fd, list->table, list->items, sizeof(int), compareints);
-//	return item != NULL;
-//}
